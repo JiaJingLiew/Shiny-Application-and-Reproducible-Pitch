@@ -329,3 +329,40 @@ p
 ```
 ## Error in loadNamespace(name): there is no package called 'webshot'
 ```
+
+4. Some histrograms
+
+```r
+hist(a$Wind, main="Daily Wind", col="lightyellow", xlim=c(0,25))
+```
+
+![plot of chunk unnamed-chunk-4](assets/fig/unnamed-chunk-4-1.png)
+
+```r
+hist(a$Temp, main="Daily Wind", col="lightgreen", xlim=c(50,100))
+```
+
+![plot of chunk unnamed-chunk-4](assets/fig/unnamed-chunk-4-2.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
