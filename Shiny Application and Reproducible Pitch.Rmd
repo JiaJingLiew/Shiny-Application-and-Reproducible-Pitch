@@ -1,0 +1,107 @@
+---
+title: "Shiny Application and Reproducible Pitch"
+author: "Jia Jing Liew"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+0.  Abstract\
+    In this presentation, i will discuss about New York Air Quality, through linear regression model. The measurements was done from May to September 1973, which had measured temperature(degrees F), solar radiation(lang), etc.
+
+1.  Introduction\
+    First, loading data and making sure the data class or other information
+
+```{r}
+Sys.setenv(LANGUAGE="en")
+library(shiny)
+library(psych)
+library(ggplot2)
+library(dplyr)
+library(datasets)
+library(plotly)
+data("airquality")
+a<-data.frame(airquality)
+class(a)
+describe(a)
+dim(a)
+length(unique(is.na(a)))
+```
+
+2.  Making linear regression model\
+    From the before, we know that the data airquality has 6 variables. We can make some assumptions, likely "Ozone" and "Wind" has some relations(actually them haven't relation).
+
+```{r}
+am1<-lm(Ozone~Wind,a)
+summary(am1)
+anova(am1)
+
+am2<-lm(Ozone~Wind+Temp,a)
+summary(am2)
+anova(am2)
+```
+
+3.  Ploting the graphs in bar plot Now, we know "Ozone" and "Wind" has clearly from their F values, and we are plotting the graphs
+
+```{r}
+p1<-plot_ly(a, x=a$Day, y=a$Ozone, type="bar", col="green") %>% layout(xaxis=list(title='Day'),yaxis=list(title='Ozone'))
+p1
+
+p2<-plot_ly(a, x=a$Day, y=a$Wind, type="bar") %>% layout(xaxis=list(title='Day'), yaxis=list(title='Wind'))
+p2
+
+p3<-plot_ly(a, x=a$Temp, y=a$Ozone, type="bar") %>% layout(xaxis=list(title='Temp'), yaxis=list(title='Ozone'))
+p3
+
+p4<-plot_ly(a, x=a$Temp, y=a$Wind, type="bar") %>% layout(xaxis=list(title='Temp'), yaxis=list(title='Wind'))
+p4
+
+p5<-plot_ly(a, x=a$Day, y=a$Temp, type="bar") %>% layout(xaxis=list(title='Day'), yaxis=list(title='Temp'))
+p5
+
+p<-subplot(p1, p2, p3, p4)
+
+annotations = list(
+  list(x=0.15,y=1.0,text="Day-Ozone",xref="paper",yref="paper",xanchor="center",yanchor="bottom",showarrow=FALSE),
+  list(x=0.4,y=1.0,text="Day-Wind",xref="paper",yref="paper",xanchor="center",yanchor="bottom",showarrow=FALSE),
+  list(x=0.65,y=1.0,text="Temp-Ozone",xref="paper",yref="paper",xanchor="center",yanchor="bottom",showarrow=FALSE),
+  list(x=0.9,y=1.0,text="Temp-Wind",xref="paper",yref="paper",xanchor="center",yanchor="bottom",showarrow=FALSE))
+
+p<-p %>%layout(annotations = annotations) 
+
+p
+
+```
+
+4. Some histrograms
+```{r}
+hist(a$Wind, main="Daily Wind", col="lightyellow", xlim=c(0,25))
+
+hist(a$Temp, main="Daily Wind", col="lightgreen", xlim=c(50,100))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
